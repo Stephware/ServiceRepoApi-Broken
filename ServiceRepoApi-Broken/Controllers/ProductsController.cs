@@ -6,7 +6,8 @@ using ServiceRepoApi.Services;
 
 namespace ServiceRepoApi.Controllers;
 
-[Route("api/[controller]s")]
+[ApiController]
+[Route("api/products")]
 public class ProductsController : ControllerBase
 {
     private readonly IProductService _productService;
@@ -25,7 +26,7 @@ public class ProductsController : ControllerBase
         return Ok(products);
     }
 
-    [HttpGet("{productId}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<Product>> GetById(int id)
     {
         var product = await _productService.GetByIdAsync(id);
@@ -47,7 +48,7 @@ public class ProductsController : ControllerBase
         return Ok(product);
     }
 
-    [HttpPost("{id}")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, Product product)
     {
         var result = await _productService.UpdateAsync(product);
@@ -56,7 +57,7 @@ public class ProductsController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var product = await _context.Products.FindAsync(id);
