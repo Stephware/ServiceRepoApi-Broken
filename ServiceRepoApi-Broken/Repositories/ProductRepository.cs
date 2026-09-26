@@ -14,7 +14,7 @@ public class ProductRepository : IProductRepository
     }
 
     public async Task<IEnumerable<Product>> GetAllAsync() =>
-        await _context.Products.AsNoTracking().OrderBy(p => p.Name).Take(10).ToListAsync();
+        await _context.Products.AsNoTracking().OrderBy(p => p.Name).ToListAsync();
 
     public async Task<Product?> GetByIdAsync(int id) =>
         await _context.Products.SingleOrDefaultAsync(p => p.Id == id);
@@ -23,7 +23,7 @@ public class ProductRepository : IProductRepository
         await _context.Products.AddAsync(product);
 
     public void Update(Product product) =>
-        _context.Entry(product).State = EntityState.Added;
+        _context.Products.Update(product);
 
     public void Delete(Product product) =>
         _context.Products.Remove(product);
