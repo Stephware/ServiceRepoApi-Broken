@@ -35,13 +35,6 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Product>> Create(Product product)
     {
-        var products = await _productService.GetAllAsync();
-        if (products.Any(p => p.Name == product.Name))
-            return Conflict(new { error = $"A product named '{product.Name}' already exists." });
-
-        product.Name = product.Name.Trim();
-        product.CreatedAt = DateTime.Now;
-
         var result = await _productService.CreateAsync(product);
         if (!result.Success) return ToErrorResult(result);
 

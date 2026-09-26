@@ -18,6 +18,16 @@ public class ProductService : IProductService
 
     public async Task<ServiceResult> CreateAsync(Product product)
     {
+        var trimmedName = product.Name.Trim();
+        var products = await _repository.GetAllAsync();
+
+        if (products.Any(p => p.Name.Equals(trimmedName, StringComparison.OrdinalIgnoreCase)))
+            return ServiceResult.Conflict($"A product named '{trimmedName}' already exists.");
+
+        product.Id = 0;
+        product.Name = trimmedName;
+        product.CreatedAt = DateTime.UtcNow;
+
         await _repository.AddAsync(product);
         await _repository.SaveChangesAsync();
         return ServiceResult.Ok();
