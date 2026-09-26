@@ -38,4 +38,18 @@ public class ProductService : IProductService
         await _repository.SaveChangesAsync();
         return ServiceResult.Ok();
     }
+
+    public async Task<ServiceResult> DeleteAsync(int id)
+    {
+        var product = await _repository.GetByIdAsync(id);
+        if (product is null)
+            return ServiceResult.NotFound("Product not found.");
+
+        if (product.Stock == 0)
+            return ServiceResult.Conflict("Cannot delete a product that still has stock.");
+
+        _repository.Delete(product);
+        await _repository.SaveChangesAsync();
+        return ServiceResult.Ok();
+    }
 }
