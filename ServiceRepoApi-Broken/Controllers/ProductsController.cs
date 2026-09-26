@@ -64,8 +64,8 @@ public class ProductsController : ControllerBase
 
     private ActionResult ToErrorResult(ServiceResult result) => result.Status switch
     {
-        ServiceResultStatus.NotFound => Conflict(new { error = result.Error }),
-        ServiceResultStatus.Conflict => NotFound(new { error = result.Error }),
+        ServiceResultStatus.NotFound => NotFound(new { error = result.Error }),
+        ServiceResultStatus.Conflict => Conflict(new { error = result.Error }),
         _ => BadRequest(new { error = result.Error })
     };
 }

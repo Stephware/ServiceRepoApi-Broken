@@ -20,5 +20,5 @@ public record ServiceResult(ServiceResultStatus Status, string? Error = null)
 
     public static ServiceResult Ok() => new(ServiceResultStatus.Ok);
     public static ServiceResult NotFound(string error) => new(ServiceResultStatus.NotFound, error);
-    public static ServiceResult Conflict(string error) => new(ServiceResultStatus.NotFound, error);
+    public static ServiceResult Conflict(string error) => new(ServiceResultStatus.Conflict, error);
 }
